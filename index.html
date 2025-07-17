@@ -163,9 +163,10 @@
                 <section class="form-section">
                     <h2 class="text-2xl font-bold mb-4" style="color: var(--info-blue);">Pernyataan Persetujuan (Informed Consent)</h2>
                     <div class="space-y-4 text-gray-700 leading-relaxed">
-                        <p>Dengan mengirim data pribadi saya seperti nama, alamat domisili, status kesehatan, serta (jika bersedia) NIK dan nomor WhatsApp melalui formulir ini, saya menyatakan bersedia memberikan data tersebut untuk keperluan skrining gejala Tuberkulosis (TBC).</p>
-                        <p>Saya memahami bahwa semua data yang saya berikan akan dikelola secara bertanggung jawab dan dijaga kerahasiaannya oleh Yayasan Kemitraan Strategis Tuberkulosis Indonesia (Stop TB Partnership Indonesia - STPI) sebagai pihak penyelenggara sesuai dengan asas Perlindungan Data Pribadi (PDP).</p>
-                        <p>Saya juga memahami untuk bersedia dihubungi oleh tim penyelenggara apabila atas pertimbangan tim penyelenggara dibutuhkan tindak lanjut terkait hasil skrining saya dan hanya jika saya telah menyatakan setuju untuk dihubungi melalui pengisian formulir ini.</p>
+                        <p>Dengan mengisi formulir ini, saya menyatakan bersedia memberikan data pribadi saya—termasuk nama, alamat domisili, status kesehatan, dan lokasi GPS, serta secara opsional Nomor Induk Kependudukan (NIK) dan nomor WhatsApp—untuk keperluan skrining gejala Tuberkulosis (TBC).</p>
+                        <p>Saya memahami bahwa <b>data yang saya isi hanya akan dikirim dan dicatat oleh Yayasan Kemitraan Strategis Tuberkulosis Indonesia (Stop TB Partnership Indonesia – STPI)</b> jika saya menekan tombol <b>"Ya, saya mengerti dan setuju"</b> pada pop-up konfirmasi pengiriman data yang muncul sebelum mengakses hasil skrining.</p>
+                        <p>Saya juga memahami bahwa seluruh data akan dikelola secara bertanggung jawab dan dijaga kerahasiaannya oleh STPI sesuai dengan prinsip Perlindungan Data Pribadi (PDP), dan bahwa saya hanya akan dihubungi untuk tindak lanjut jika diperlukan dan sesuai dengan persetujuan saya dalam formulir ini.</p>
+			<p><b>Saya berkomitmen untuk mengisi formulir ini dengan data yang sebenar-benarnya sesuai kondisi saya saat ini.</b></p>
                     </div>
                 </section>
             </div>
@@ -250,6 +251,9 @@
                             <label class="flex items-center"><input type="radio" name="riwayat_kontak" value="Ya" class="form-radio h-4 w-4" required> <span class="ml-2">Ya</span></label>
                             <label class="flex items-center"><input type="radio" name="riwayat_kontak" value="Tidak" class="form-radio h-4 w-4" required> <span class="ml-2">Tidak</span></label>
                         </div>
+			<p class="info-text">
+                            <b>CATATAN:</b>Tuberkulosis (TBC), khususnya yang menyerang paru, juga sering disebut dengan istilah awam seperti <b>"flek paru"</b> atau <b>"paru-paru basah"</b> oleh masyarakat.
+                        </p>
                         <p class="info-text">
                             <b>"Kontak erat"</b> artinya Anda tinggal serumah atau sering sekali berdekatan dengan orang yang sedang sakit TBC, terutama jika mereka belum menjalani pengobatan atau baru mulai pengobatan. Misalnya: Anda tinggal bersama orang yang punya TBC aktif (terutama TBC paru yang menular); Anda sering menghabiskan waktu di ruang tertutup bersama mereka (misalnya di kantor kecil, sekolah, atau kendaraan); atau Anda merawat orang tersebut atau tidur di ruangan yang sama.
                         </p>
@@ -288,6 +292,9 @@
                                 <label class="flex items-center"><input type="radio" name="riwayat_tbc" value="Ya" class="form-radio h-4 w-4" required> <span class="ml-2">Ya</span></label>
                                 <label class="flex items-center"><input type="radio" name="riwayat_tbc" value="Tidak" class="form-radio h-4 w-4" required> <span class="ml-2">Tidak</span></label>
                             </div>
+			    <p class="info-text">
+                            <b>CATATAN:</b>Tuberkulosis (TBC), khususnya yang menyerang paru, juga sering disebut dengan istilah awam seperti <b>"flek paru"</b> atau <b>"paru-paru basah"</b> oleh masyarakat.
+                        </p>
                         </div>
                         <div id="past-tb-details-container" class="conditional-question hidden space-y-4">
                             <div>
@@ -318,7 +325,7 @@
                             </div>
                         </div>
                         <div>
-                            <label class="form-label">Apakah Anda mengalami malnutrisi?</label>
+                            <label class="form-label">Apakah Anda mengalami malnutrisi (kekurangan gizi)?</label>
                             <input type="text" id="malnutrition-status" name="malnutrition" class="system-generated-field" readonly>
                         </div>
                         <div>
@@ -344,7 +351,7 @@
                             <p class="info-text">Diabetes Melitus (DM) atau "kencing manis" adalah penyakit di mana kadar gula dalam darah terlalu tinggi. Kondisi ini dapat melemahkan sistem kekebalan tubuh, sehingga lebih rentan terhadap infeksi seperti TBC.</p>
                         </div>
                         <div>
-                            <label class="form-label">Apakah Anda hidup dengan HIV/AIDS?<span class="required-asterisk">*</span></label>
+                            <label class="form-label">Apakah Anda didiagnosis HIV/AIDS?<span class="required-asterisk">*</span></label>
                             <div class="flex items-center space-x-4">
                                 <label class="flex items-center"><input type="radio" name="hiv" value="Ya" class="form-radio h-4 w-4" required> <span class="ml-2">Ya</span></label>
                                 <label class="flex items-center"><input type="radio" name="hiv" value="Tidak" class="form-radio h-4 w-4" required> <span class="ml-2">Tidak</span></label>
