@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skrining Gejala TBC | Stop TB Partnership Indonesia</title>
+    
+    <!-- Import Font Public Sans dari Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;700&display=swap" rel="stylesheet">
+    
+    <!-- Import Tailwind CSS untuk styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --primary-red: #d20000;
+            --primary-black: #000000;
+            --primary-white: #ffffff;
+            --primary-gray: #7d7d7d;
+            --light-gray: #ebebeb;
+            --warning-yellow: #ffd800;
+            --info-blue: #2f5aa9;
+        }
+
+        /* Added for smooth scrolling behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Public Sans', sans-serif;
+            background-color: var(--light-gray);
+        }
+
+        .form-section {
+            border-bottom: 1px solid var(--light-gray);
+            padding-bottom: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-slide {
+            display: none;
+        }
+
+        .active-slide {
+            display: block;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        .form-label {
+            color: var(--primary-black);
+            font-weight: bold;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .required-asterisk {
+            color: var(--primary-red);
+            margin-left: 2px;
+        }
+
+        .form-input, .form-select, .form-textarea {
+            border: 1px solid #a0aec0;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            width: 100%;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--info-blue);
+            box-shadow: 0 0 0 2px rgba(47, 90, 169, 0.2);
+            outline: none;
+        }
+        
+        .info-text {
+            color: var(--primary-gray);
+            font-size: 0.85rem;
+            margin-top: 0.5rem;
+        }
+        
+        .system-generated-field {
+            background-color: #f7fafc;
+            color: #4a5568;
+            border: 1px dashed #e2e8f0;
+            padding: 0.75rem;
+            border-radius: 0.375rem;
+            width: 100%;
+            cursor: default;
+        }
+        
+        .conditional-question {
+            background-color: #f8f9fa;
+            border-left: 4px solid var(--info-blue);
+            padding: 1rem;
+            margin-top: 1rem;
+            border-radius: 0.25rem;
+        }
+
+        .result-box {
+            transition: all 0.5s ease-in-out;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            color: var(--primary-white);
+            margin-top: 1rem;
+        }
+        
+        .result-positive { background-color: var(--primary-red); }
+        .result-negative { background-color: #28a745; }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: white;
+            padding: 2rem;
+            border-radius: 0.5rem;
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="p-4 sm:p-8">
+
+    <div id="form-container" class="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-xl shadow-lg">
+
+        <form id="tbcForm">
+            <!-- SLIDE 1: Judul dan Logo -->
+            <div class="form-slide">
+                <div class="text-center mb-8">
+                    <img src="https://static.wixstatic.com/media/6b03b6_a3351bc6491c46af9f188b5be0c96e17~mv2.png/v1/fill/w_270,h_113,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/FA_STPI_Logos-1.png" alt="Logo Stop TB Partnership Indonesia" class="mx-auto h-16 w-auto" onerror="this.onerror=null;this.src='https://placehold.co/300x70/d20000/ffffff?text=Logo+STPI';">
+                </div>
+                <div class="form-section">
+                    <h1 class="text-3xl sm:text-4xl font-bold text-center" style="color: var(--primary-red);">Skrining Gejala Tuberkulosis</h1>
+                    <div class="mt-6 text-left space-y-4 text-base leading-relaxed" style="color: var(--primary-gray);">
+                        <p>Tuberkulosis (TBC) adalah penyakit menular yang biasanya menyerang paru-paru dan sering disebut masyarakat sebagai "flek" atau "paru-paru basah". Gejalanya bisa berupa batuk lama (lebih dari 2 minggu), sesak napas, dan penurunan berat badan. Pengobatannya membutuhkan waktu cukup lama, kurang lebih 6 bulan, dan harus tuntas agar tidak kambuh atau menjadi kebal obat (resisten). TBC bisa menyerang siapa saja, tetapi dapat disembuhkan sepenuhnya jika ditangani dengan benar.</p>
+                        <p>Isi formulir ini dan lihat apakah Anda perlu segera memeriksakan diri ke fasilitas kesehatan terdekat untuk diagnosis Tuberkulosis (TBC).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SLIDE 2: Informed Consent -->
+            <div class="form-slide">
+                <section class="form-section">
+                    <h2 class="text-2xl font-bold mb-4" style="color: var(--info-blue);">Pernyataan Persetujuan (Informed Consent)</h2>
+                    <div class="space-y-4 text-gray-700 leading-relaxed">
+                        <p>Dengan mengisi dan mengirim data pribadi saya seperti nama, alamat domisili, status kesehatan, serta (jika bersedia) NIK dan nomor WhatsApp melalui formulir ini, saya menyatakan bersedia memberikan data tersebut untuk keperluan skrining gejala Tuberkulosis (TBC).</p>
+                        <p>Saya memahami bahwa semua data yang saya berikan akan dikelola secara bertanggung jawab dan dijaga kerahasiaannya oleh Yayasan Kemitraan Strategis Tuberkulosis Indonesia (Stop TB Partnership Indonesia - STPI) sebagai pihak penyelenggara.</p>
+                        <p>Saya juga bersedia dihubungi oleh tim penyelenggara jika diperlukan tindak lanjut terkait hasil skrining ini.</p>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SLIDE 3: Identitas Diri -->
+            <div class="form-slide">
+                <section class="form-section">
+                    <h2 class="text-2xl font-bold mb-4" style="color: var(--info-blue);">Identitas Diri</h2>
+                    <p class="text-sm text-gray-500 mb-6 -mt-4">(*) wajib diisi</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+                        <div class="md:col-span-2">
+                            <label for="full_name" class="form-label">Nama Lengkap<span class="required-asterisk">*</span></label>
+                            <input type="text" id="full_name" name="nama_lengkap" class="form-input" placeholder="Masukkan nama lengkap Anda" required>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="address" class="form-label">Alamat Tempat Tinggal (Domisili)<span class="required-asterisk">*</span></label>
+                            <textarea id="address" name="alamat" class="form-textarea" rows="2" placeholder="Masukkan alamat lengkap Anda" required></textarea>
+                        </div>
+                        <div>
+                            <label for="nik" class="form-label">Nomor Induk Kependudukan (NIK)</label>
+                            <input type="text" id="nik" name="nik" class="form-input" placeholder="16 digit NIK (Opsional)">
+                        </div>
+                        <div>
+                            <label for="whatsapp" class="form-label">Nomor WhatsApp</label>
+                            <input type="tel" id="whatsapp" name="whatsapp" class="form-input" placeholder="Contoh: 08123456789 (Opsional)">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="form-label">Apakah Anda bersedia dihubungi oleh STPI melalui WhatsApp jika diperlukan tindak lanjut dari hasil skrining ini?</label>
+                            <div class="flex items-center space-x-4">
+                                <label class="flex items-center"><input type="radio" name="persetujuan_wa" value="Ya" class="form-radio h-4 w-4"> <span class="ml-2">Ya</span></label>
+                                <label class="flex items-center"><input type="radio" name="persetujuan_wa" value="Tidak" class="form-radio h-4 w-4"> <span class="ml-2">Tidak</span></label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="form-label">Jenis Kelamin<span class="required-asterisk">*</span></label>
+                            <div class="flex items-center space-x-4">
+                                <label class="flex items-center"><input type="radio" name="jenis_kelamin" value="Laki-laki" class="form-radio h-4 w-4" required> <span class="ml-2">Laki-laki</span></label>
+                                <label class="flex items-center"><input type="radio" name="jenis_kelamin" value="Perempuan" class="form-radio h-4 w-4" required> <span class="ml-2">Perempuan</span></label>
+                            </div>
+                        </div>
+                        <div id="pregnancy-container" class="conditional-question hidden">
+                            <label class="form-label">Apakah Anda sedang hamil?<span class="required-asterisk">*</span></label>
+                            <div class="flex items-center space-x-4">
+                                <label class="flex items-center"><input type="radio" name="status_hamil" value="Ya" class="form-radio h-4 w-4"> <span class="ml-2">Ya</span></label>
+                                <label class="flex items-center"><input type="radio" name="status_hamil" value="Tidak" class="form-radio h-4 w-4"> <span class="ml-2">Tidak</span></label>
+                            </div>
+                        </div>
+                        <div>
+                            <label for="dob" class="form-label">Tanggal Lahir<span class="required-asterisk">*</span></label>
+                            <input type="date" id="dob" name="tanggal_lahir" class="form-input" required>
+                            <p id="age-info" class="info-text mt-1 h-5"></p>
+                        </div>
+                        <div>
+                            <label for="weight" class="form-label">Berat Badan (kg)<span class="required-asterisk">*</span></label>
+                            <input type="number" id="weight" name="berat_badan" class="form-input" placeholder="Contoh: 65" required>
+                        </div>
+                        <div>
+                            <label for="height" class="form-label">Tinggi Badan (cm)<span class="required-asterisk">*</span></label>
+                            <input type="number" id="height" name="tinggi_badan" class="form-input" placeholder="Contoh: 170" required>
+                        </div>
+                        <div>
+                            <label class="form-label">Indeks Massa Tubuh (IMT)</label>
+                            <p id="bmi-info" class="system-generated-field min-h-[3.25rem] font-bold"></p>
+                        </div>
+                        <div class="md:col-span-2">
+                            <label for="blood_pressure" class="form-label">Tekanan Darah (mmHg)</label>
+                            <input type="text" id="blood_pressure" name="tekanan_darah" class="form-input" placeholder="Contoh: 120/80 (Opsional)">
+                            <p id="blood-pressure-info" class="info-text mt-1 min-h-[1.25rem]"></p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SLIDE 4: Pemeriksaan Kontak -->
+            <div class="form-slide">
+                <section class="form-section">
+                    <h2 class="text-2xl font-bold mb-4" style="color: var(--info-blue);">Pemeriksaan Kontak</h2>
+                    <p class="text-sm text-gray-500 mb-6 -mt-4">(*) wajib diisi</p>
+                    <div>
+                        <label class="form-label">Dalam 3 bulan terakhir, apakah Anda memiliki <b>kontak erat</b> dengan pasien yang didiagnosis Tuberkulosis?<span class="required-asterisk">*</span></label>
+                        <div class="flex items-center space-x-4">
+                            <label class="flex items-center"><input type="radio" name="riwayat_kontak" value="Ya" class="form-radio h-4 w-4" required> <span class="ml-2">Ya</span></label>
+                            <label class="flex items-center"><input type="radio" name="riwayat_kontak" value="Tidak" class="form-radio h-4 w-4" required> <span class="ml-2">Tidak</span></label>
+                        </div>
+                        <p class="info-text">
+                            <b>"Kontak erat"</b> artinya Anda tinggal serumah atau sering sekali berdekatan dengan orang yang sedang sakit TBC, terutama jika mereka belum menjalani pengobatan atau baru mulai pengobatan. Misalnya: Anda tinggal bersama orang yang punya TBC aktif (terutama TBC paru yang menular); Anda sering menghabiskan waktu di ruang tertutup bersama mereka (misalnya di kantor kecil, sekolah, atau kendaraan); atau Anda merawat orang tersebut atau tidur di ruangan yang sama.
+                        </p>
+                    </div>
+                    <div id="contact-details-container" class="conditional-question hidden mt-4">
+                        <label class="form-label">Apakah diketahui jenis TBC apa yang dimiliki oleh pasien?<span class="required-asterisk">*</span></label>
+                        <div class="space-y-3">
+                            <label class="block p-3 border rounded-md hover:bg-gray-50">
+                                <input type="radio" name="jenis_tbc_kontak" value="Sensitif Obat (SO)" class="form-radio h-4 w-4">
+                                <span class="ml-2 font-semibold">Sensitif Obat (SO)</span>
+                                <p class="text-xs text-gray-600 ml-6">Bakteri TBC masih bisa dilawan dengan obat lini pertama (seperti Rifampisin, Isoniazid). Pengobatan biasanya 2-6 bulan.</p>
+                            </label>
+                            <label class="block p-3 border rounded-md hover:bg-gray-50">
+                                <input type="radio" name="jenis_tbc_kontak" value="Resisten Obat (RO)" class="form-radio h-4 w-4">
+                                <span class="ml-2 font-semibold">Resisten Obat (RO)</span>
+                                <p class="text-xs text-gray-600 ml-6">Bakteri TBC kebal terhadap obat lini pertama. Memerlukan obat lini kedua (seperti Kanamisin, Levofloksasin, Bedakuilin) dengan pengobatan lebih lama (6-24 bulan).</p>
+                            </label>
+                            <label class="block p-3 border rounded-md hover:bg-gray-50">
+                                <input type="radio" name="jenis_tbc_kontak" value="Tidak Tahu" class="form-radio h-4 w-4">
+                                <span class="ml-2 font-semibold">Tidak Tahu</span>
+                            </label>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SLIDE 5: Faktor Risiko -->
+            <div class="form-slide">
+                <section class="form-section">
+                    <h2 class="text-2xl font-bold mb-4" style="color: var(--info-blue);">Faktor Risiko</h2>
+                    <p class="text-sm text-gray-500 mb-6 -mt-4">(*) wajib diisi</p>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="form-label">Apakah Anda pernah didiagnosis TBC?<span class="required-asterisk">*</span></label>
+                            <div class="flex items-center space-x-4">
+                                <label class="flex items-center"><input type="radio" name="riwayat_tbc" value="Ya" class="form-radio h-4 w-4" required> <span class="ml-2">Ya</span></label>
+                                <label class="flex items-center"><input type="radio" name="riwayat_tbc" value="Tidak" class="form-radio h-4 w-4" required> <span class="ml-2">Tidak</span></label>
+                            </div>
+                        </div>
+                        <div id="past-tb-details-container" class="conditional-question hidden space-y-4">
+                            <div>
+                                <label class="form-label text-sm">Jenis TBC yang pernah dialami?<span class="required-asterisk">*</span></label>
+                                <div class="space-y-3">
+                                    <label class="block p-3 border rounded-md hover:bg-gray-50">
+                                        <input type="radio" name="jenis_tbc_lampau" value="Sensitif Obat (SO)" class="form-radio h-4 w-4">
+                                        <span class="ml-2 font-semibold">Sensitif Obat (SO)</span>
+                                        <p class="text-xs text-gray-600 ml-6">Bakteri TBC masih bisa dilawan dengan obat lini pertama (seperti Rifampisin, Isoniazid).</p>
+                                    </label>
+                                    <label class="block p-3 border rounded-md hover:bg-gray-50">
+                                        <input type="radio" name="jenis_tbc_lampau" value="Resisten Obat (RO)" class="form-radio h-4 w-4">
+                                        <span class="ml-2 font-semibold">Resisten Obat (RO)</span>
+                                        <p class="text-xs text-gray-600 ml-6">Bakteri TBC kebal terhadap obat lini pertama, memerlukan pengobatan lebih lanjut.</p>
+                                    </label>
+                                </div>
+                            </div>
+                            <div>
+                                <label class="form-label text-sm">Nama obat yang dikonsumsi (jika ingat)?</label>
+                                <input type="text" name="obat_tbc_lampau" class="form-input" placeholder="Contoh: Rifampisin, Isoniazid">
+                            </div>
+                            <div>
+                                <label class="form-label text-sm">Apakah menyelesaikan pengobatan sampai tuntas?<span class="required-asterisk">*</span></label>
+                                <div class="flex items-center space-x-4">
+                                    <label class="flex items-center"><input type="radio" name="pengobatan_tuntas" value="Ya" class="form-radio h-4 w-4"> <span class="ml-2">Ya</span></label>
+                                    <label class="flex items-center"><input type="radio" name="pengobatan_tuntas" value="Tidak" class="form-radio h-4 w-4"> <span class="ml-2">Tidak</span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="form-label">Apakah Anda mengalami malnutrisi?</label>
+                            <input type="text" id="malnutrition-status" name="malnutrition" class="system-generated-field" readonly>
+                        </div>
+                        <div>
+                            <label class="form-label">Apakah Anda merupakan perokok aktif?<span class="required-asterisk">*</span></label>
+                            <div class="flex items-center space-x-4">
+                                <label class="flex items-center"><input type="radio" name="perokok_aktif" value="Ya" class="form-radio h-4 w-4" required> <span class="ml-2">Ya</span></label>
+                                <label class="flex items-center"><input type="radio" name="perokok_aktif" value="Tidak" class="form-radio h-4 w-4" required> <span class="ml-2">Tidak</span></label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="form-label">Apakah Anda perokok pasif (sering terpapar asap rokok)?<span class="required-asterisk">*</span></label>
+                            <div class="flex items-center space-x-4">
+                                <label class="flex items-center"><input type="radio" name="perokok_pasif" value="Ya" class="form-radio h-4 w-4" required> <span class="ml-2">Ya</span></label>
+                                <label class="flex items-center"><input type="radio" name="perokok_pasif" value="Tidak" class="form-radio h-4 w-4" required> <span class="ml-2">Tidak</span></label>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="form-label">Apakah Anda pernah didiagnosis <b>Diabetes Melitus (DM)</b>?<span class="required-asterisk">*</span></label>
+                            <div class="flex items-center space-x-4">
+                                <label class="flex items-center"><input type="radio" name="diabetes" value="Ya" class="form-radio h-4 w-4" required> <span class="ml-2">Ya</span></label>
+                                <label class="flex items-center"><input type="radio" name="diabetes" value="Tidak" class="form-radio h-4 w-4" required> <span class="ml-2">Tidak</span></label>
+                            </div>
+                            <p class="info-text">Diabetes Melitus (DM) atau "kencing manis" adalah penyakit di mana kadar gula dalam darah terlalu tinggi. Kondisi ini dapat melemahkan sistem kekebalan tubuh, sehingga lebih rentan terhadap infeksi seperti TBC.</p>
+                        </div>
+                        <div>
+                            <label class="form-label">Apakah Anda hidup dengan HIV/AIDS?<span class="required-asterisk">*</span></label>
+                            <div class="flex items-center space-x-4">
+                                <label class="flex items-center"><input type="radio" name="hiv" value="Ya" class="form-radio h-4 w-4" required> <span class="ml-2">Ya</span></label>
+                                <label class="flex items-center"><input type="radio" name="hiv" value="Tidak" class="form-radio h-4 w-4" required> <span class="ml-2">Tidak</span></label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- SLIDE 6: Skrining Gejala -->
+            <div class="form-slide">
+                <section class="form-section">
+                    <h2 class="text-2xl font-bold mb-4" style="color: var(--info-blue);">Skrining Gejala</h2>
+                    <p class="text-sm text-gray-500 mb-6 -mt-4">(*) wajib diisi</p>
+                    <div class="space-y-6">
+                        <div>
+                            <label class="form-label">Gejala Utama: Apakah Anda saat ini sedang mengalami batuk (jenis batuk apapun)?<span class="required-asterisk">*</span></label>
+                            <div class="flex items-center space-x-4">
+                                <label class="flex items-center"><input type="radio" name="batuk" value="Ya" class="form-radio h-4 w-4" required> <span class="ml-2">Ya</span></label>
+                                <label class="flex items-center"><input type="radio" name="batuk" value="Tidak" class="form-radio h-4 w-4" required> <span class="ml-2">Tidak</span></label>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t">
+                            <label class="form-label">Gejala Tambahan (pilih Ya jika mengalami):<span class="required-asterisk">*</span></label>
+                            <!-- Responsive grid for symptoms -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-4">
+                                <div class="grid grid-cols-2 gap-4 items-center">
+                                    <span>Penurunan berat badan tanpa sebab?</span>
+                                    <div class="flex items-center space-x-4 justify-end"><label><input type="radio" name="gejala_bb_turun" value="Ya" required> Ya</label><label><input type="radio" name="gejala_bb_turun" value="Tidak"> Tidak</label></div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 items-center">
+                                    <span>Demam tanpa sebab jelas?</span>
+                                    <div class="flex items-center space-x-4 justify-end"><label><input type="radio" name="gejala_demam" value="Ya" required> Ya</label><label><input type="radio" name="gejala_demam" value="Tidak"> Tidak</label></div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 items-center">
+                                    <span>Badan terasa lemas/lesu?</span>
+                                    <div class="flex items-center space-x-4 justify-end"><label><input type="radio" name="gejala_lemas" value="Ya" required> Ya</label><label><input type="radio" name="gejala_lemas" value="Tidak"> Tidak</label></div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 items-center">
+                                    <span>Berkeringat malam hari tanpa kegiatan?</span>
+                                    <div class="flex items-center space-x-4 justify-end"><label><input type="radio" name="gejala_keringat_malam" value="Ya" required> Ya</label><label><input type="radio" name="gejala_keringat_malam" value="Tidak"> Tidak</label></div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 items-center">
+                                    <span>Sesak napas tanpa nyeri dada?</span>
+                                    <div class="flex items-center space-x-4 justify-end"><label><input type="radio" name="gejala_sesak_napas" value="Ya" required> Ya</label><label><input type="radio" name="gejala_sesak_napas" value="Tidak"> Tidak</label></div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-4 items-center">
+                                    <span>Pembesaran getah bening (leher/ketiak)?</span>
+                                    <div class="flex items-center space-x-4 justify-end"><label><input type="radio" name="gejala_benjolan" value="Ya" required> Ya</label><label><input type="radio" name="gejala_benjolan" value="Tidak"> Tidak</label></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="pt-4 border-t">
+                            <label for="other_symptoms" class="form-label">Apakah ada <b>gejala lain</b> yang tidak disebutkan? (Opsional)</label>
+                            <textarea id="other_symptoms" name="gejala_lain_teks" class="form-textarea" rows="3" placeholder="Contoh: Nyeri sendi, sakit kepala berkepanjangan, dll."></textarea>
+                            <p class="info-text mt-1">Catatan: Sistem akan menganalisis <b>gejala lain</b> ini menggunakan AI untuk membantu penilaian. Analisis AI bersifat perkiraan, sehingga mohon untuk tidak dijadikan acuan. <b>Periksa ke dokter untuk diagnosis jelas.</b></p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div id="navigation-buttons" class="mt-8 flex flex-col sm:flex-row sm:justify-between items-center space-y-4 sm:space-y-0">
+                <button type="button" id="prevBtn" class="w-full sm:w-auto px-6 py-2 rounded-lg font-bold text-black bg-gray-200 transition-transform transform hover:scale-105">Sebelumnya</button>
+                <button type="button" id="nextBtn" class="w-full sm:w-auto px-6 py-2 rounded-lg font-bold text-white transition-transform transform hover:scale-105" style="background-color: var(--info-blue);">Selanjutnya</button>
+            </div>
+
+            <!-- SECTION 7: Hasil Skrining (Initially Hidden) -->
+            <section id="result-section" class="mt-10 pt-6 border-t hidden">
+                <h2 class="text-2xl font-bold mb-2" style="color: var(--primary-red);">Hasil Skrining Anda</h2>
+                <div id="recommendation" class="result-box">
+                    <!-- Hasil akan ditampilkan di sini oleh JavaScript -->
+                </div>
+                <!-- Added Links -->
+                <div class="mt-6 text-center space-y-3">
+                    <a href="https://instagram.com/stoptbindonesia" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">
+                        📰Klik di sini untuk informasi seputar TBC di Instagram STPI.
+                    </a>
+                    <br>
+					<br>
+                    <a href="https://wa.me/6285282298824" target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline">
+                        💬Klik di sini untuk berkonsultasi dengan STPI melalui WhatsApp.
+                    </a>
+                </div>
+                 <div class="mt-8 text-center">
+                    <button type="reset" class="px-8 py-3 rounded-lg font-bold text-black bg-gray-200 transition-transform transform hover:scale-105">Ulangi Skrining</button>
+                </div>
+            </section>
+        </form>
+
+        <!-- Footer -->
+        <footer class="mt-10 pt-6 border-t text-center">
+            <p class="text-xs" style="color: var(--primary-gray);">
+                ©2025 Yayasan Kemitraan Strategis Tuberkulosis Indonesia
+            <br>
+            <a href ="https://stoptbindonesia.org" target="_blank" rel="noopener noreferrer">www.stoptbindonesia.org</a>
+            </p>
+        </footer>
+    </div>
+    
+    <!-- Confirmation Modal -->
+    <div id="confirmationModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h3 class="text-xl font-bold mb-4">Konfirmasi Pengiriman Data</h3>
+            <p class="mb-6">Anda bersedia untuk mengirimkan data yang sudah Anda isi dalam formulir ini?</p>
+            <button id="confirmSubmitBtn" class="w-full px-6 py-3 rounded-lg font-bold text-white transition-transform transform hover:scale-105" style="background-color: var(--primary-red);">
+                Ya, saya mengerti dan setuju
+            </button>
+            <button id="cancelSubmitBtn" class="w-full px-6 py-2 mt-2 text-sm text-gray-600">
+                Batal
+            </button>
+        </div>
+    </div>
+
+
+    <script>
+        // --- DOM ELEMENT SELECTION ---
+        const form = document.getElementById('tbcForm');
+        const slides = document.querySelectorAll('.form-slide');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const navigationButtons = document.getElementById('navigation-buttons');
+        const confirmationModal = document.getElementById('confirmationModal');
+        const confirmSubmitBtn = document.getElementById('confirmSubmitBtn');
+        const cancelSubmitBtn = document.getElementById('cancelSubmitBtn');
+        
+        const pregnancyContainer = document.getElementById('pregnancy-container');
+        const contactDetailsContainer = document.getElementById('contact-details-container');
+        const pastTbDetailsContainer = document.getElementById('past-tb-details-container');
+        const malnutritionStatusInput = document.getElementById('malnutrition-status');
+        const ageInfo = document.getElementById('age-info');
+        const bmiInfo = document.getElementById('bmi-info');
+        const bloodPressureInfo = document.getElementById('blood-pressure-info');
+        const resultSection = document.getElementById('result-section');
+        const recommendationBox = document.getElementById('recommendation');
+        const otherSymptomsTextarea = document.getElementById('other_symptoms');
+        const formContainer = document.getElementById('form-container');
+
+        let currentSlide = 0;
+
+        // --- SLIDE NAVIGATION LOGIC ---
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active-slide'));
+            slides[n].classList.add('active-slide');
+
+            if (n === 0) {
+                prevBtn.style.display = 'none';
+            } else {
+                prevBtn.style.display = 'inline-block';
+            }
+
+            if (n === slides.length - 1) {
+                nextBtn.textContent = 'Lihat Hasil Skrining';
+                nextBtn.style.backgroundColor = 'var(--primary-red)';
+            } else {
+                nextBtn.textContent = 'Selanjutnya';
+                nextBtn.style.backgroundColor = 'var(--info-blue)';
+            }
+            formContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function nextPrev(n) {
+            if (n > 0 && currentSlide > 1 && !validateForm()) {
+                alert('Harap lengkapi semua isian yang wajib pada halaman ini sebelum melanjutkan.');
+                return false;
+            }
+            
+            if (currentSlide === slides.length - 1 && n > 0) {
+                if (!validateForm()) {
+                    alert('Harap lengkapi semua isian yang wajib pada halaman ini sebelum melanjutkan.');
+                    return false;
+                }
+                confirmationModal.classList.remove('hidden');
+                return false;
+            }
+
+            slides[currentSlide].classList.remove('active-slide');
+            currentSlide += n;
+
+            showSlide(currentSlide);
+        }
+        
+        function validateForm() {
+            const currentInputs = slides[currentSlide].querySelectorAll('input[required], select[required], textarea[required]');
+            let valid = true;
+            for (const input of currentInputs) {
+                if (input.type === 'radio') {
+                    const radioGroup = form.elements[input.name];
+                    if (!radioGroup.value) {
+                        valid = false;
+                        break;
+                    }
+                } else if (!input.value) {
+                    valid = false;
+                    break;
+                }
+            }
+            return valid;
+        }
+
+        // --- HELPER FUNCTIONS ---
+        function calculateAge(dob) {
+            if (!dob) return null;
+            const birthDate = new Date(dob);
+            const today = new Date();
+            let age = today.getFullYear() - birthDate.getFullYear();
+            const m = today.getMonth() - birthDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) age--;
+            return age;
+        }
+
+        function calculateBMI(gender, weight, height) {
+            if (!gender || !weight || !height) return null;
+            const heightInMeters = height / 100;
+            const bmi = weight / (heightInMeters * heightInMeters);
+            let category = '';
+            if (gender === 'Perempuan') {
+                if (bmi < 17) category = 'Kurus';
+                else if (bmi >= 17 && bmi < 23) category = 'Normal';
+                else if (bmi >= 23 && bmi < 27) category = 'Kegemukan';
+                else category = 'Obesitas';
+            } else { // Laki-laki
+                if (bmi < 18) category = 'Kurus';
+                else if (bmi >= 18 && bmi < 25) category = 'Normal';
+                else if (bmi >= 25 && bmi < 27) category = 'Kegemukan';
+                else category = 'Obesitas';
+            }
+            return { value: bmi.toFixed(1), category };
+        }
+        
+        function classifyBloodPressure(bpString) {
+            if (!bpString || !bpString.includes('/')) return { status: 'Invalid', text: '' };
+            const parts = bpString.split('/');
+            const systolic = parseInt(parts[0], 10);
+            const diastolic = parseInt(parts[1], 10);
+            if (isNaN(systolic) || isNaN(diastolic)) return { status: 'Invalid', text: '' };
+            if (systolic >= 160 || diastolic >= 100) return { status: 'Hipertensi Derajat 2', text: 'Hipertensi derajat 2 (hanya jika angka tersebut berdasarkan rata‑rata dari 2 pembacaan pada hari berbeda)' };
+            if (systolic >= 140 || diastolic >= 90) return { status: 'Hipertensi Derajat 1', text: 'Hipertensi derajat 1 (hanya jika angka tersebut berdasarkan rata‑rata dari 2 pembacaan pada hari berbeda)' };
+            if (systolic >= 120 || diastolic >= 80) return { status: 'Pra-hipertensi', text: 'Tekanan darah tinggi normal (pra-hipertensi)' };
+            if (systolic < 120 && diastolic < 80) return { status: 'Normal', text: 'Tekanan darah normal' };
+            return { status: 'Invalid', text: '' };
+        }
+
+        async function analyzeOtherSymptoms(symptomText) {
+            if (!symptomText.trim()) return false;
+            const prompt = `Based on the following user-described symptom, determine if it could potentially be related to Tuberculosis (TB) as an additional symptom. Answer only with "Ya" or "Tidak". Symptom: "${symptomText}"`;
+            const apiKey = "";
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`;
+            const payload = { contents: [{ role: "user", parts: [{ text: prompt }] }] };
+            try {
+                const response = await fetch(apiUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                if (!response.ok) { console.error("API Error:", response.statusText); return false; }
+                const result = await response.json();
+                if (result.candidates && result.candidates.length > 0) {
+                    const text = result.candidates[0].content.parts[0].text.trim();
+                    return text.toLowerCase() === 'ya';
+                }
+                return false;
+            } catch (error) {
+                console.error("Fetch Error:", error);
+                return false;
+            }
+        }
+
+        // --- MAIN LOGIC FUNCTION ---
+        function updateFormState() {
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+            if (data.jenis_kelamin === 'Perempuan') {
+                pregnancyContainer.classList.remove('hidden');
+                pregnancyContainer.querySelector('input').required = true;
+            } else {
+                pregnancyContainer.classList.add('hidden');
+                pregnancyContainer.querySelector('input').required = false;
+                document.querySelectorAll('input[name="status_hamil"]').forEach(r => r.checked = false);
+            }
+            if (data.riwayat_kontak === 'Ya') {
+                contactDetailsContainer.classList.remove('hidden');
+                contactDetailsContainer.querySelector('input').required = true;
+            } else {
+                contactDetailsContainer.classList.add('hidden');
+                contactDetailsContainer.querySelector('input').required = false;
+                document.querySelectorAll('input[name="jenis_tbc_kontak"]').forEach(r => r.checked = false);
+            }
+            if (data.riwayat_tbc === 'Ya') {
+                pastTbDetailsContainer.classList.remove('hidden');
+                pastTbDetailsContainer.querySelector('input[name="jenis_tbc_lampau"]').required = true;
+                pastTbDetailsContainer.querySelector('input[name="pengobatan_tuntas"]').required = true;
+            } else {
+                pastTbDetailsContainer.classList.add('hidden');
+                pastTbDetailsContainer.querySelector('input[name="jenis_tbc_lampau"]').required = false;
+                pastTbDetailsContainer.querySelector('input[name="pengobatan_tuntas"]').required = false;
+                pastTbDetailsContainer.querySelectorAll('input[name="jenis_tbc_lampau"]').forEach(r => r.checked = false);
+                pastTbDetailsContainer.querySelector('input[type="text"]').value = '';
+                pastTbDetailsContainer.querySelectorAll('input[name="pengobatan_tuntas"]').forEach(r => r.checked = false);
+            }
+            const age = calculateAge(data.tanggal_lahir);
+            if (age !== null) {
+                let category = '';
+                if (age <= 14) category = 'Anak-anak';
+                else if (age > 14 && age <= 60) category = 'Dewasa';
+                else category = 'Lansia';
+                ageInfo.textContent = `Usia Anda: ${age} tahun (${category})`;
+            } else ageInfo.textContent = '';
+            const bmiResult = calculateBMI(data.jenis_kelamin, data.berat_badan, data.tinggi_badan);
+            if (bmiResult) {
+                bmiInfo.innerHTML = `${bmiResult.value} <span class="font-normal">(${bmiResult.category})</span>`;
+                malnutritionStatusInput.value = (bmiResult.category === 'Kurus') ? 'Ya (IMT Kurus)' : 'Tidak';
+            } else {
+                bmiInfo.textContent = '';
+                malnutritionStatusInput.value = '';
+            }
+            const bpClassification = classifyBloodPressure(data.tekanan_darah);
+            bloodPressureInfo.textContent = bpClassification.text;
+        }
+
+        // --- MAIN DATA GATHERING AND SUBMISSION LOGIC ---
+        function processAndSubmit() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    (position) => {
+                        const coords = {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude
+                        };
+                        evaluateAndSendData(coords);
+                    },
+                    () => {
+                        evaluateAndSendData({ latitude: 'Tidak diizinkan/Gagal', longitude: 'Tidak diizinkan/Gagal' });
+                    }
+                );
+            } else {
+                evaluateAndSendData({ latitude: 'Tidak didukung', longitude: 'Tidak didukung' });
+            }
+        }
+        
+        async function evaluateAndSendData(gpsData) {
+            nextBtn.disabled = true;
+            nextBtn.textContent = 'Menganalisis...';
+            
+            const formData = new FormData(form);
+            
+            // --- Calculate all system-generated values ---
+            const otherSymptomIsTbRelated = await analyzeOtherSymptoms(formData.get('gejala_lain_teks'));
+            const age = calculateAge(formData.get('tanggal_lahir'));
+            const ageCategory = (age > 60) ? 'Lansia' : (age <= 14 ? 'Anak-anak' : 'Dewasa');
+            const bmiResult = calculateBMI(formData.get('jenis_kelamin'), formData.get('berat_badan'), formData.get('tinggi_badan'));
+            const bpClassification = classifyBloodPressure(formData.get('tekanan_darah'));
+            const hasRiskFactor = formData.get('riwayat_tbc') === 'Ya' || (bmiResult && bmiResult.category === 'Kurus') || formData.get('perokok_aktif') === 'Ya' || formData.get('perokok_pasif') === 'Ya' || formData.get('diabetes') === 'Ya' || formData.get('status_hamil') === 'Ya' || ageCategory === 'Lansia' || formData.get('hiv') === 'Ya';
+            const hasAdditionalSymptom = formData.get('gejala_bb_turun') === 'Ya' || formData.get('gejala_demam') === 'Ya' || formData.get('gejala_lemas') === 'Ya' || formData.get('gejala_keringat_malam') === 'Ya' || formData.get('gejala_sesak_napas') === 'Ya' || formData.get('gejala_benjolan') === 'Ya' || otherSymptomIsTbRelated;
+            let isSuspected = false;
+            if (formData.get('batuk') === 'Ya') isSuspected = true;
+            if (formData.get('riwayat_kontak') === 'Ya' && (hasRiskFactor || hasAdditionalSymptom)) isSuspected = true;
+            if (hasRiskFactor && hasAdditionalSymptom) isSuspected = true;
+            
+            // --- Append calculated and GPS data to FormData for submission ---
+            formData.append('timestamp', new Date().toISOString());
+            formData.append('latitude', gpsData.latitude);
+            formData.append('longitude', gpsData.longitude);
+            formData.append('usia', age || '');
+            formData.append('kategori_usia', ageCategory || '');
+            formData.append('imt', bmiResult ? bmiResult.value : '');
+            formData.append('kategori_imt', bmiResult ? bmiResult.category : '');
+            formData.append('status_malnutrisi', (bmiResult && bmiResult.category === 'Kurus') ? 'Ya' : 'Tidak');
+            formData.append('klasifikasi_tekanan_darah', bpClassification.status || '');
+            formData.append('gejala_lain_ai', otherSymptomIsTbRelated ? 'Ya' : 'Tidak');
+            formData.append('hasil_skrining', isSuspected ? 'Terduga TBC' : 'Tidak Berisiko TBC');
+
+            // --- Show results on screen ---
+            displayResults(Object.fromEntries(formData), isSuspected, bpClassification, bmiResult);
+            
+            // --- Send data to Google Sheet ---
+            const scriptURL = 'https://script.google.com/macros/s/AKfycbyfFWkMTriuLkd3tJNErNSRqvWa795JQ9rSMhKyz2jf9_NTpQJQcdMQbKoOF5D7Rcr7/exec';
+            
+            fetch(scriptURL, { method: 'POST', body: formData })
+                .then(response => {
+                    console.log('Success!', response);
+                    // Optionally, show a success message to the user
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    // Optionally, show an error message to the user
+                });
+
+            console.log("Data submitted:", Object.fromEntries(formData));
+        }
+
+        function displayResults(data, isSuspected, bpClassification, bmiResult) {
+            let recommendationHTML = '';
+            recommendationBox.classList.remove('result-positive', 'result-negative');
+            if (isSuspected) {
+                recommendationBox.classList.add('result-positive');
+                recommendationHTML = `<h3 class="font-bold text-xl mb-2">Terduga TBC</h3><p>Berdasarkan data yang sudah diisi, Anda dinyatakan <strong>terduga TBC</strong>. Segera periksakan diri Anda di fasilitas kesehatan terdekat (Puskesmas/Rumah Sakit) untuk pemeriksaan lebih lanjut.</p>`;
+                if (data.jenis_kelamin === 'Perempuan' && data.status_hamil === 'Ya') {
+                    recommendationHTML += `<div class="mt-4 pt-3 border-t border-white/50"><p class="font-bold">CATATAN KHUSUS IBU HAMIL:</p><p class="text-sm">Informasikan status kehamilan Anda kepada tenaga kesehatan. Anda mungkin tidak disarankan untuk menjalani pemeriksaan rontgen dada (toraks) dan akan direkomendasikan metode diagnosis lain yang lebih aman.</p></div>`;
+                }
+            } else {
+                recommendationBox.classList.add('result-negative');
+                recommendationHTML = `<h3 class="font-bold text-xl mb-2">Tidak Berisiko TBC</h3><p>Berdasarkan data yang sudah diisi, Anda dinyatakan <strong>tidak berisiko TBC</strong>. Tetap terapkan Pola Hidup Bersih dan Sehat (PHBS) untuk menjaga kesehatan Anda.</p>`;
+            }
+            const highBpStates = ['Pra-hipertensi', 'Hipertensi Derajat 1', 'Hipertensi Derajat 2'];
+            if (highBpStates.includes(bpClassification.status)) {
+                recommendationHTML += `<div class="mt-4 pt-3 border-t border-white/50"><p class="font-bold">CATATAN TAMBAHAN (TEKANAN DARAH):</p><p class="text-sm">Hasil pengukuran tekanan darah Anda menunjukkan kondisi <strong>${bpClassification.status}</strong>. Jangan lupa sampaikan hal ini kepada dokter untuk menjadi perhatian.</p></div>`;
+            }
+            if (bmiResult && bmiResult.category === 'Obesitas') {
+                recommendationHTML += `<div class="mt-4 pt-3 border-t border-white/50"><p class="font-bold">CATATAN TAMBAHAN (INDEKS MASSA TUBUH):</p><p class="text-sm">Hasil perhitungan IMT Anda menunjukkan kondisi <strong>Obesitas</strong>. Disarankan untuk berkonsultasi dengan dokter atau ahli gizi untuk mendapatkan penanganan yang tepat terkait kondisi ini.</p></div>`;
+            }
+            recommendationBox.innerHTML = recommendationHTML;
+            navigationButtons.style.display = 'none';
+            resultSection.classList.remove('hidden');
+            resultSection.scrollIntoView({ behavior: 'smooth' });
+            nextBtn.disabled = false;
+        }
+
+        // --- EVENT LISTENERS ---
+        form.addEventListener('input', updateFormState);
+        prevBtn.addEventListener('click', () => nextPrev(-1));
+        nextBtn.addEventListener('click', () => nextPrev(1));
+        
+        confirmSubmitBtn.addEventListener('click', () => {
+            confirmationModal.classList.add('hidden');
+            processAndSubmit();
+        });
+
+        cancelSubmitBtn.addEventListener('click', () => {
+            confirmationModal.classList.add('hidden');
+        });
+        
+        form.addEventListener('reset', () => {
+            currentSlide = 0;
+            showSlide(0);
+            navigationButtons.style.display = 'flex';
+            resultSection.classList.add('hidden');
+            [pregnancyContainer, contactDetailsContainer, pastTbDetailsContainer].forEach(el => el.classList.add('hidden'));
+            ageInfo.textContent = '';
+            bmiInfo.textContent = '';
+            malnutritionStatusInput.value = '';
+            bloodPressureInfo.textContent = '';
+        });
+
+        // Initialize first slide
+        showSlide(currentSlide);
+    </script>
+</body>
+</html>
